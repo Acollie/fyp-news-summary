@@ -1,0 +1,10 @@
+{% extends 'parent.html' %}
+{% load static %}
+{% block body %}
+
+    <div id="vue-app">
+        <router-view></router-view>
+    </div>
+    <script defer src="{% static 'Search_results.js' %}"></script>
+{% endblock body %}
+
