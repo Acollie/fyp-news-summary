@@ -16,12 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.http import HttpResponse
-from .views import index,search_results,settings, api_gateway
+from .views import index, search_results, refresh_summary
 
 urlpatterns = [
     path('', index, name='index'),
     path('search/', search_results,name='search'),
-    path('settings/', settings, name='settings'),
-    path('api/',api_gateway, name='api'),
+    path('api/refresh_summary', refresh_summary,name='refresh_summary'),
+    path('search_page/', index, name='index'),
     path('admin/', admin.site.urls),
 ]

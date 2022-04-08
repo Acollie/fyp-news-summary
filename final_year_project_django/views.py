@@ -6,7 +6,8 @@ from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 
 from .forms import SearchInput
-from .ingestion import text_aggrogation, get_t5_summary, gpt_3_summary
+from .ingestion import text_aggrogation_object, get_t5_summary, gpt_3_summary, gpt_3_summary_regenerate, \
+    text_aggrogation_binning
 from .search import find_similar_by_word_to_vec, find_similar_by_model_transformer
 
 
@@ -22,8 +23,8 @@ def search_results(request):
         forms = json.load(request)
         if forms['data']['search_string'] != '' and forms['data']['search_string'] != ' ':
             search_results = find_similar_by_model_transformer(forms['data']['search_string'])
-            summary = "PLEASE CHANGE"
-            # summary = gpt_3_summary(text_aggrogation(search_results))
+            summary = gpt_3_summary(text_aggrogation_object(search_results))
+            # summary = gpt_3_summary(text_aggrogation_binning(search_results),use_bin=True)
 
             return JsonResponse({
                 'status': True,
@@ -38,6 +39,32 @@ def search_results(request):
         context = {
         }
         return HttpResponse(template.render(context, request))
+@csrf_exempt
+def refresh_summary(request):
+    if request.method == "POST":
+        forms = json.load(request)
+        binning = forms['data']['binning']
+        temperature = float(forms['data']['temperature'])
+        if bool(binning):
+            text_response = gpt_3_summary_regenerate(forms['data']['summary_items'], temperature=temperature,use_bin=True)
+            # text_response = "HELLO WORLD"
+            return JsonResponse({
+                'status': True,
+                'summary_response': text_response
+                })
+
+        else:
+            text_string = ''''''
+            for item_string in forms['data']['summary_items']:
+                text_string += item_string
+
+            text_response = gpt_3_summary_regenerate(forms['data']['summary_items'],temperature=temperature,use_bin=False)
+            # text_response = "HELLO WORLD"
+            return JsonResponse({
+                'status': True,
+                'summary_response': text_response
+                })
+
 
 def settings(request):
 
@@ -45,8 +72,3 @@ def settings(request):
     context = {
     }
     return HttpResponse(template.render(context, request))
-
-@csrf_exempt
-def api_gateway(request):
-
-    return JsonResponse({'foo':'bar'})

@@ -1,4 +1,4 @@
-from final_year_project_django.ingestion import between_two_sentences
+from final_year_project_django.ingestion import between_two_sentences, text_reformatted
 from final_year_project_django.models import News
 from sentence_transformers import SentenceTransformer, util
 # from manage import model
@@ -51,7 +51,6 @@ def find_similar_by_model_transformer(search_string, n=5, threshold=0.4):
     return_array = []
     for title, score, article, tldr,source in doc_score_pairs:
         if score > threshold:
-            print("Adding item")
             return_array.append([score, {'title': title, 'body': article, 'body_tldr': tldr,'news_source':source}])
 
     return return_array[:n]

@@ -21,30 +21,47 @@ def between_two_sentences(s1, s2, model):
 
 
 def text_reformatted(input_text):
-  input_text.replace("\n","")
-  input_text.replace("\t", "")
-  return input_text
+    print(input_text)
+    print(type(input_text))
+    input_text.replace("\\n", "")
+    input_text.replace("\\", "")
+    input_text.replace('''\\\'''''', "")
+    input_text.replace(''''b''', "")
+    input_text.replace("\n", "")
+    input_text.replace("\t", "")
+    input_text.replace("b'", "")
+    return input_text
 
 def binning_expirment(text,bin_size=1700):
     from textwrap import wrap
     return wrap(text, bin_size)
-def text_aggrogation_binning(objects,bin_size=1700):
+def text_aggrogation_binning(objects,bin_size=1000):
     bins = []
     bin_string = ''
     for article in objects:
-        if len(bin_string) > bin_size:
-            bins.append(bin_string)
+        print(article)
+        print(bin_size)
+        print(len(bin_string) + len(article[1]['body_tldr']))
+        print('---')
+        if len(bin_string) + len(article[1]['body_tldr']) > bin_size:
+            bins.append(text_reformatted(bin_string))
             bin_string = ''
         else:
             bin_string += article[1]['body_tldr']
     return bins
 
 
-def text_aggrogation(objects):
+def text_aggrogation_object(objects):
     full_string = ''''''
     for article in objects:
         print(article[1])
         full_string += article[1]['body_tldr']
+    return full_string
+
+def text_aggrogation_array(objects):
+    full_string = ''''''
+    for article in objects:
+        full_string += article
     return full_string
 
 def get_t5_summary(input_text, max_length=100, min_length=30):
@@ -53,32 +70,78 @@ def get_t5_summary(input_text, max_length=100, min_length=30):
         input_text = input_text[:1700]
     return summarizer(text_reformatted(input_text), max_length=max_length, min_length=min_length, do_sample=False)[0]["summary_text"]
 
-def gpt_3_summary(input_text, use_bin=False):
-    if bin == False:
+def gpt_3_summary_regenerate(input_text,temperature=0.5,use_bin=False):
+
+    if use_bin == False:
         openai.api_key = "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"
+        input_text = text_aggrogation_array(input_text)
+        print(input_text)
+        print("not binning")
         response = openai.Completion.create(
             engine="text-davinci-001",
             prompt=text_reformatted(input_text),
-            temperature=0.7,
+            temperature=float(temperature),
             max_tokens=60,
             top_p=1.0,
             frequency_penalty=0.0,
             presence_penalty=0.0
         )
+        print(response)
         return response['choices'][0]['text']
     else:
+        print(use_bin)
         response_string = ''''''
         for text in input_text:
             openai.api_key = "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"
             response = openai.Completion.create(
                 engine="text-davinci-001",
                 prompt=text_reformatted(text),
-                temperature=0.7,
+                temperature=float(temperature),
                 max_tokens=60,
                 top_p=1.0,
                 frequency_penalty=0.0,
                 presence_penalty=0.0
             )
+            response_string += response['choices'][0]['text']
+        return response_string
+
+def gpt_3_summary(input_text, temperature=0.7, use_bin=False):
+    if use_bin == False:
+        openai.api_key = "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"
+        print(text_reformatted(input_text))
+        print(input_text)
+        print('bin')
+        response = openai.Completion.create(
+            engine="text-davinci-001",
+            prompt=input_text,
+            temperature=temperature,
+            max_tokens=60,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0
+        )
+        print(response)
+        return response['choices'][0]['text']
+    else:
+        response_string = ''''''
+        counter = 0
+        print(input_text)
+        print('else')
+        for text in input_text:
+            openai.api_key = "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"
+            print(counter)
+            counter += 1
+            print(text)
+            response = openai.Completion.create(
+                engine="text-davinci-001",
+                prompt=text,
+                temperature=temperature,
+                max_tokens=60,
+                top_p=1.0,
+                frequency_penalty=0.0,
+                presence_penalty=0.0
+            )
+            print(response)
             response_string += response['choices'][0]['text']
         return response_string
 

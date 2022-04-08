@@ -1,4 +1,4 @@
-from final_year_project_django.ingestion import binning_expirment, text_aggrogation, gpt_3_summary
+from final_year_project_django.ingestion import binning_expirment, text_aggrogation_object, gpt_3_summary
 from final_year_project_django.search import find_similar_by_model_transformer
 
 text_input = '''
@@ -28,6 +28,6 @@ Duis vitae vehicula odio, condimentum scelerisque est. Praesent ex augue, venena
 def test_eval_binning():
 
     search_results = find_similar_by_model_transformer("France")
-    summary = gpt_3_summary(text_aggrogation(search_results), use_bin=True)
+    summary = gpt_3_summary(text_aggrogation_object(search_results), use_bin=True)
 
     print(summary)
