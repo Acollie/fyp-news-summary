@@ -46,20 +46,17 @@ def refresh_summary(request):
         binning = forms['data']['binning']
         temperature = float(forms['data']['temperature'])
         if bool(binning):
-            text_response = gpt_3_summary_regenerate(forms['data']['summary_items'], temperature=temperature,use_bin=True)
-            # text_response = "HELLO WORLD"
+            text_response = gpt_3_summary_regenerate(forms['data']['summary_items'], temperature=temperature,
+                                                     use_bucket=True)
             return JsonResponse({
                 'status': True,
                 'summary_response': text_response
                 })
 
         else:
-            text_string = ''''''
-            for item_string in forms['data']['summary_items']:
-                text_string += item_string
 
-            text_response = gpt_3_summary_regenerate(forms['data']['summary_items'],temperature=temperature,use_bin=False)
-            # text_response = "HELLO WORLD"
+            text_response = gpt_3_summary_regenerate(forms['data']['summary_items'], temperature=temperature,
+                                                     use_bucket=False)
             return JsonResponse({
                 'status': True,
                 'summary_response': text_response

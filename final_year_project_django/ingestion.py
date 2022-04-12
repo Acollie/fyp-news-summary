@@ -21,8 +21,6 @@ def between_two_sentences(s1, s2, model):
 
 
 def text_reformatted(input_text):
-    print(input_text)
-    print(type(input_text))
     input_text.replace("\\n", "")
     input_text.replace("\\", "")
     input_text.replace('''\\\'''''', "")
@@ -62,26 +60,28 @@ def text_aggrogation_array(objects):
     full_string = ''''''
     for article in objects:
         full_string += article
+        print(article)
     return full_string
 
+# Basic test of usage of the T5 summary not in use.
 def get_t5_summary(input_text, max_length=100, min_length=30):
     summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
     if len(input_text) > 1700:
         input_text = input_text[:1700]
     return summarizer(text_reformatted(input_text), max_length=max_length, min_length=min_length, do_sample=False)[0]["summary_text"]
 
-def gpt_3_summary_regenerate(input_text,temperature=0.5,use_bin=False):
-
-    if use_bin == False:
+# This regenerates GPT-3 summary
+def gpt_3_summary_regenerate(input_text, temperature=0.5, use_bucket=False):
+    # If the bucketing system is being used
+    if use_bucket == False:
         openai.api_key = "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"
         input_text = text_aggrogation_array(input_text)
-        print(input_text)
-        print("not binning")
+        print("Non bucket")
         response = openai.Completion.create(
             engine="text-davinci-001",
             prompt=text_reformatted(input_text),
             temperature=float(temperature),
-            max_tokens=60,
+            max_tokens=1140,
             top_p=1.0,
             frequency_penalty=0.0,
             presence_penalty=0.0
@@ -89,7 +89,7 @@ def gpt_3_summary_regenerate(input_text,temperature=0.5,use_bin=False):
         print(response)
         return response['choices'][0]['text']
     else:
-        print(use_bin)
+        print("Using buckets")
         response_string = ''''''
         for text in input_text:
             openai.api_key = "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"
