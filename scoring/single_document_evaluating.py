@@ -4,27 +4,24 @@ from final_year_project_django.ingestion import gpt_3_summary, get_t5_summary
 import os
 import numpy as np
 import statistics
-scorer = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
+scorer = rouge_scorer.RougeScorer(['rougeL','rouge1'], use_stemmer=True)
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-#
-# s1 = ''''''
-# s2 = gpt_3_summary(s1)
-# s3 = get_t5_summary(s1)
-# scores = scorer.score(s1,s2)
-# scorest5 = scorer.score(s1,s3)
-# # print(scorer)
-# print("gpt", scores)
-# print("t5", scorest5)
+
 
 df = pd.read_csv('data/cnn_dailymail/test.csv')
 
-gpt_recall = []
-t5_recall = []
+gpt_recall_rougeL = []
+t5_recall_rougeL = []
+gpt_precision_rougeL = []
+t5_precision_rougeL = []
 
-gpt_precision = []
-t5_precision = []
 
-for row in df.head(15).iterrows():
+gpt_recall_rouge1 = []
+t5_recall_rouge1 = []
+gpt_precision_rouge1 = []
+t5_precision_rouge1 = []
+
+for row in df.head(10).iterrows():
     # print(row[0])
 
     reduced_actual = row[1][2]
@@ -39,30 +36,31 @@ for row in df.head(15).iterrows():
     # Test 1
     #     print("T5",scorer.score(reduced_actual, reduced_summary_t5))
     scores = scorer.score(reduced_actual, reduced_summary_t5)
-    t5_recall.append(scores['rougeL'].recall)
-    t5_precision.append(scores['rougeL'].precision)
-        # print(foo['rouge1'].precision)
-        # print(foo['rouge1'].recall)
-        # Test 2
-        # print(scorer.score(full_actual, reduced_summary))
-        # GPT test
-    scores = scorer.score(reduced_actual, reduced_summary_gpt)
-    gpt_recall.append(scores['rougeL'].recall)
-    gpt_precision.append(scores['rougeL'].precision)
+    t5_recall_rougeL.append(scores['rougeL'].recall)
+    t5_precision_rougeL.append(scores['rougeL'].precision)
 
+    t5_recall_rouge1.append(scores['rouge1'].recall)
+    t5_precision_rouge1.append(scores['rouge1'].precision)
+
+    scores = scorer.score(reduced_actual, reduced_summary_gpt)
+    gpt_recall_rougeL.append(scores['rougeL'].recall)
+    gpt_precision_rougeL.append(scores['rougeL'].precision)
+
+    gpt_recall_rouge1.append(scores['rouge1'].recall)
+    gpt_precision_rouge1.append(scores['rouge1'].precision)
     # except:
     #     print("Error")
     #     pass
 print("T5")
-print(statistics.mean(t5_precision))
-print(statistics.mean(t5_recall))
-
+print("Precision Rouge L",statistics.mean(t5_precision_rougeL))
+print("Recall Rouge L", statistics.mean(t5_recall_rougeL))
+print('-----')
+print("Precision Rouge 1",statistics.mean(t5_precision_rouge1))
+print("Recall Rouge 1", statistics.mean(t5_recall_rouge1))
+print('-----'*3)
 print("GPT")
-print(statistics.mean(gpt_recall))
-print(statistics.mean(gpt_precision))
-# T5
-# 0.3280458914537447
-# 0.38348829488462133
-# GPT
-# 0.07645789054308325
-# 0.0943009619335005
+print("Precision RougeL", statistics.mean(gpt_recall_rougeL))
+print("Recall RougeL", statistics.mean(gpt_precision_rougeL))
+print('-----')
+print("Precision Rouge1", statistics.mean(gpt_recall_rouge1))
+print("Recall Rouge1", statistics.mean(gpt_precision_rouge1))

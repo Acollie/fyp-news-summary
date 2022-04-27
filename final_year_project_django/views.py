@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .forms import SearchInput
 from .ingestion import text_aggrogation_object, get_t5_summary, gpt_3_summary, gpt_3_summary_regenerate, \
-    text_aggrogation_binning
+    text_aggrogation_bucketing
 from .search import find_similar_by_word_to_vec, find_similar_by_model_transformer
 
 

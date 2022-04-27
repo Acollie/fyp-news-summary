@@ -13,7 +13,10 @@ Vue.component('text_item', {
   props: ['post'],
   template: `<div>
                 <button v-on:click="toggle_display" class="btn btn-primary">Hide/show</button>
-                <div v-if="display">{{post.body}}</div>
+                <div v-if="display">
+                <div v-if="post.body!='' ">{{post.body}}</div>
+                <div v-else>{{post.body_tldr}}</div>
+                </div>
                 </div>`,
   methods:{
     toggle_display(){
@@ -69,7 +72,8 @@ const Search_results = { template:
       summary_response:'' ,
       temperature: 0.9,
       summary_items:[],
-      summary_set:new Set()}
+      summary_set:new Set(),
+    }
   },
   mounted () {
     this.init()
@@ -93,18 +97,15 @@ const Search_results = { template:
       for (const entry of this.summary_set.entries()) {
         items.push(this.search_array[entry[0]][1]['body_tldr'])
       }
+
       axios.post('api/refresh_summary', {
         data:{'summary_items':items,'temperature':this.temperature,'binning':this.binning},
-        // headers:{"X-CSRFToken": csrfToken}
       })
       .then((response)=>{
-        // this.$set(this.text_summary, 'text', "Foo bar")
-        // console.log(response.data);
         this.summary_response = response.data['summary_response']
-        // router.push({name: 'search_page',params: { data: response.data }})
       })
       .catch(function (error) {
-        this.summary_response ="foo"
+        this.summary_response ="Error"
 
         alert("An error occurred")
         console.log(error)
@@ -115,7 +116,6 @@ const Search_results = { template:
       router.push({name: 'MainPage'})
     },
     init(){
-      console.log('mounted')
       this.search_array = this.$route.params.data_returned.search_response
       this.summary_response = this.$route.params.data_returned.summary_response
       for (let i = 0; i < this.$route.params.data_returned.search_response.length; i++) {

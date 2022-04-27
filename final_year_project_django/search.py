@@ -30,7 +30,6 @@ def find_similar_by_model_transformer(search_string, n=5, threshold=0.4):
         articles.append(article.body)
         article_tldr.append(article.body_tldr)
         news_source.append(article.news_source)
-    # Load the model
 
 
     # Encode query and documents
