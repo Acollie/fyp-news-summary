@@ -1,4 +1,5 @@
 # Lucid
+Note the tests have been removed from the learn version of this site due to size limitations.
 
 ## Overview of the program
 The program uses the following library's
@@ -22,3 +23,4 @@ The program uses the following library's
 3. Install the requirements `pip install -r requirements.txt`
 4. Start the program using `python manage.py runserver`
 5. Go to [localhost:8000](https://localhost:8000 "localhost:8000")
+6. Enter an item into the search box the search term "War in ukraine" yields the best results`
