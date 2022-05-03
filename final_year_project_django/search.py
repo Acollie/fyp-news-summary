@@ -18,8 +18,9 @@ def find_similar_by_word_to_vec(search_string, n=5, threshold=0.75):
     return largest_similar[:n]
 
 
-
-# https://huggingface.co/sentence-transformers/multi-qa-MiniLM-L6-cos-v1
+# This code is initally sources from this https://huggingface.co/sentence-transformers/multi-qa-MiniLM-L6-cos-v1
+# However has been modified to work with django
+# The threshold also has been added
 def find_similar_by_model_transformer(search_string, n=5, threshold=0.4):
     title = []
     articles = []

@@ -29,17 +29,19 @@ def text_reformatted(input_text):
     input_text.replace("b'", "")
     return input_text
 
+
 # This function implements the bucketing system
-def text_aggrogation_bucketing(objects, bin_size=1000):
-    bins = []
+def text_aggregation_bucketing(objects, bucket_size=1250):
+    buckets = []
     bin_string = ''
     for article in objects:
-        if len(bin_string) + len(article[1]['body_tldr']) > bin_size:
-            bins.append(text_reformatted(bin_string))
+        if len(bin_string) + len(article[1]['body_tldr']) > bucket_size:
+            buckets.append(text_reformatted(bin_string))
             bin_string = ''
         else:
             bin_string += article[1]['body_tldr']
-    return bins
+    return buckets
+
 
 # This is the non bucketing system used for objects requested via Django on the main page
 def text_aggrogation_object(objects):
@@ -102,9 +104,6 @@ def gpt_3_summary_regenerate(input_text, temperature=0.7, use_bucket=False):
 def gpt_3_summary(input_text, temperature=0.7, use_bin=False):
     if use_bin == False:
         openai.api_key = "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"
-        print(text_reformatted(input_text))
-        print(input_text)
-        print('not bin')
         response = openai.Completion.create(
             engine="text-davinci-001",
             prompt=input_text,
@@ -114,18 +113,12 @@ def gpt_3_summary(input_text, temperature=0.7, use_bin=False):
             frequency_penalty=0.0,
             presence_penalty=0.0
         )
-        print(response)
         return response['choices'][0]['text']
     else:
         response_string = ''''''
-        counter = 0
-        print(input_text)
-        print('bin')
+
         for text in input_text:
             openai.api_key = "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"
-            print(counter)
-            counter += 1
-            print(text)
             response = openai.Completion.create(
                 engine="text-davinci-001",
                 prompt=text,

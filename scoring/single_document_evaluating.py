@@ -28,14 +28,18 @@ for row in df.head(10).iterrows():
     x = row[1][1]
     reduced_summary_t5 = get_t5_summary(x)
 
-    reduced_summary_gpt = gpt_3_summary(row[1][1])
+    try:
+        reduced_summary_gpt = gpt_3_summary(row[1][1])
 
-    full_actual = row[1][2]
+
+        full_actual = row[1][2]
 
     # try:
     # Test 1
     #     print("T5",scorer.score(reduced_actual, reduced_summary_t5))
-    scores = scorer.score(reduced_actual, reduced_summary_t5)
+        scores = scorer.score(reduced_actual, reduced_summary_t5)
+    except:
+        print('error')
     t5_recall_rougeL.append(scores['rougeL'].recall)
     t5_precision_rougeL.append(scores['rougeL'].precision)
 
@@ -59,8 +63,8 @@ print("Precision Rouge 1",statistics.mean(t5_precision_rouge1))
 print("Recall Rouge 1", statistics.mean(t5_recall_rouge1))
 print('-----'*3)
 print("GPT")
-print("Precision RougeL", statistics.mean(gpt_recall_rougeL))
-print("Recall RougeL", statistics.mean(gpt_precision_rougeL))
+print("Precision RougeL", statistics.mean(gpt_precision_rougeL))
+print("Recall RougeL", statistics.mean(gpt_recall_rougeL))
 print('-----')
-print("Precision Rouge1", statistics.mean(gpt_recall_rouge1))
-print("Recall Rouge1", statistics.mean(gpt_precision_rouge1))
+print("Precision Rouge1", statistics.mean(gpt_precision_rouge1))
+print("Recall Rouge1", statistics.mean(gpt_recall_rouge1))

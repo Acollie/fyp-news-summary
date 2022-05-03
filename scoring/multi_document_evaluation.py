@@ -4,7 +4,7 @@ import statistics
 
 from rouge_score import rouge_scorer
 
-from final_year_project_django.ingestion import text_aggrogation_array, gpt_3_summary_regenerate, text_aggrogation_bucketing
+from final_year_project_django.ingestion import text_aggrogation_array, gpt_3_summary_regenerate, text_aggregation_bucketing
 
 scores_precision_non_bucket_rougeL = []
 scores_recall_non_bucket_rougeL = []
@@ -38,7 +38,7 @@ def transform_results_into_single_array(search_array):
 def create_evaluation_score(search_result):
 
     scorer = rouge_scorer.RougeScorer(['rougeL','rouge1'], use_stemmer=True)
-    search_array_1 = text_aggrogation_bucketing(search_result)
+    search_array_1 = text_aggregation_bucketing(search_result)
     search_string_1 = text_aggrogation_array(search_array_1)
     try:
         summary_gpt_non_bucket = gpt_3_summary_regenerate(search_string_1)

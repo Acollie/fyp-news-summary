@@ -1,7 +1,7 @@
 # Imports
 import statistics
 from rouge_score import rouge_scorer
-from final_year_project_django.ingestion import text_aggrogation_array, gpt_3_summary_regenerate, text_aggrogation_bucketing
+from final_year_project_django.ingestion import text_aggrogation_array, gpt_3_summary_regenerate, text_aggregation_bucketing
 
 scores_precision_non_bucket_rougeL = []
 scores_recall_non_bucket_rougeL = []
@@ -44,7 +44,7 @@ for bucket in bucket_sizes:
 def create_evaluation_score(search_result):
     for bucket_size in bucket_sizes:
         scorer = rouge_scorer.RougeScorer(['rougeL', 'rouge1'], use_stemmer=True)
-        search_array_1 = text_aggrogation_bucketing(search_result, bin_size=bucket_size)
+        search_array_1 = text_aggregation_bucketing(search_result, bucket_size=bucket_size)
         search_string_1 = text_aggrogation_array(search_array_1)
 
         summary_gpt_bucket = gpt_3_summary_regenerate(search_array_1, use_bucket=True, temperature=0.8)

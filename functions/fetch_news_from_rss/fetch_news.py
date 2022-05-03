@@ -47,16 +47,20 @@ def fetch_news():
             item_key = news.title
 
             dt = datetime.fromtimestamp(mktime(news.published_parsed))
-            # Saving the item into a dictonary
+            # Saving the item into a dictionary
             dict_file[item_key] = {
                 "title": news.title,
                 "summary": news.summary,
                 "link": news.link,
                 "full_text": fetch_news_from_url(news.link),
-                "date": {"year":dt.year,"month":dt.month,"day":dt.day,"hour":dt.hour,"minute":dt.minute}
+                "date": {
+                    "year":dt.year,"month":dt.month,
+                    "day":dt.day,
+                    "hour":dt.hour,
+                    "minute":dt.minute}
 
                }
-    # This saves the dictonary into a file
+    # This saves the dictionary into a file
     yaml.dump(dict_file, file)
 
 # This is the entry point the lamda function expects

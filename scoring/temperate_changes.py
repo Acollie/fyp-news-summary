@@ -1,7 +1,7 @@
 # Imports
 import statistics
 from rouge_score import rouge_scorer
-from final_year_project_django.ingestion import text_aggrogation_array, gpt_3_summary_regenerate, text_aggrogation_bucketing
+from final_year_project_django.ingestion import text_aggrogation_array, gpt_3_summary_regenerate, text_aggregation_bucketing
 
 scores_precision_non_bucket_rougeL = []
 scores_recall_non_bucket_rougeL = []

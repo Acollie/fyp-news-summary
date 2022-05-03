@@ -38,7 +38,7 @@ const Search_results = { template:
       <label for="Temperature" class="form-label">Temperature: {{this.temperature}}</label>
       <input type="range" class="form-range" v-model="temperature" min="0" max="1" step="0.1" id="Temperature">
       </p>
-      <label for="binning" class="form-label" @click="binning_setting">Use Binning</label>
+      <label for="binning" class="form-label" @click="binning_setting">Use Bucketing</label>
       <input class="form-check-input" v-model="binning" type="checkbox" value="" id="binning">
     </div>
       <p>Auto generated summary <strong>{{summary_response}}</strong></p>
