@@ -2,17 +2,6 @@ import openai,os
 from gensim.models import KeyedVectors
 from transformers import pipeline
 
-"""Compute the Word Mover's Distance between two documents.
-
-When using this code, please consider citing the following papers:
-
-* `Ofir Pele and Michael Werman "A linear time histogram metric for improved SIFT matching"
-  <http://www.cs.huji.ac.il/~werman/Papers/ECCV2008.pdf>`_
-* `Ofir Pele and Michael Werman "Fast and robust earth mover's distances"
-  <https://ieeexplore.ieee.org/document/5459199/>`_
-* `Matt Kusner et al. "From Word Embeddings To Document Distances"
-  <http://proceedings.mlr.press/v37/kusnerb15.pdf>`_.
-"""
 
 # This is an old function of the word to vec usage
 def between_two_sentences(s1, s2, model):
@@ -65,6 +54,7 @@ def text_aggrogation_array(objects):
 # Basic test of usage of the T5 summary not in use.
 def get_t5_summary(input_text, max_length=100, min_length=30):
     summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+    # This is stop the token size from being exceeded
     if len(input_text) > 1700:
         input_text = input_text[:1700]
     return summarizer(text_reformatted(input_text), max_length=max_length, min_length=min_length, do_sample=False)[0]["summary_text"]

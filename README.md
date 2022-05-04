@@ -25,3 +25,15 @@ The program uses the following library's
 5. Start the program using `python manage.py runserver` this can take a while since initially the models will need to be downloaded.
 6. Go to [localhost:8000](https://localhost:8000 "localhost:8000")
 7. Enter an item into the search box the search term "War in ukraine" yields the best results
+
+## Important features
+### Creating summary of news articles
+Functions are inside the `ingestion.py`
+### Searching transformer based seen in file
+Functions are inside the `search.py`
+### Fetching data from the internet
+This handled inside the functions file `s3_fetch.py` fetched data from the s3.environment
+`fetch_news.py`
+### Front end parts
+Javascript inside `static/Search_results.js`
+HTML stored `templates/`
