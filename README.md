@@ -8,19 +8,20 @@ The program uses the following library's
 - OpenAI (used for GPT-3 interaction)
 - boto3(used for AWS interaction)
 - Beautiful Soup (used for web scraping)
-- Huggingface used for pretrained models
+- Huggingface(sentence-transformers) used for pretrained models
 - Rouge-score used for running rouge score
 
 ### Javascript
-- Vue.js
-- Vue-router
-- Axios
-- Bootstrap
+- Vue.js (handing front end events)
+- Vue-router (url routing on the front end)
+- Axios (sending API calls)
+- Bootstrap (for making professional UI elements)
 
-## How to run program
-1. Download repo
-2. using Conda or venv create a use Python 3.6 recommended
-3. Install the requirements `pip install -r requirements.txt`
-4. Start the program using `python manage.py runserver`
-5. Go to [localhost:8000](https://localhost:8000 "localhost:8000")
-6. Enter an item into the search box the search term "War in ukraine" yields the best results`
+## How to run program with conda (https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
+1. Download the repo via Github
+2. Create an environment `conda create -n myenv python=3.6`
+3. Then run `conda env update -f env.yaml` this should install all the dependencies required for the project. If this command does not work try this `conda env update -f env.yaml --prune`
+4. Then activate the environment by running `source activate myenv`
+5. Start the program using `python manage.py runserver` this can take a while since initially the models will need to be downloaded.
+6. Go to [localhost:8000](https://localhost:8000 "localhost:8000")
+7. Enter an item into the search box the search term "War in ukraine" yields the best results
