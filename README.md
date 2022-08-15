@@ -1,4 +1,5 @@
-# Lucid
+# Lucid - A news summary generator
+Full write up in file marked "project_write_up.pdf"
 Note the tests have been removed from the learn version of this site due to size limitations.
 
 ## Overview of the program
