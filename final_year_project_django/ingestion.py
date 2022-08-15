@@ -63,7 +63,7 @@ def get_t5_summary(input_text, max_length=100, min_length=30):
 def gpt_3_summary_regenerate(input_text, temperature=0.7, use_bucket=False):
     # If the bucketing system is being used
     if use_bucket == False:
-        openai.api_key = "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"
+        openai.api_key = ""
         input_text = text_aggrogation_array(input_text)
         response = openai.Completion.create(
             engine="text-davinci-001",
@@ -78,7 +78,7 @@ def gpt_3_summary_regenerate(input_text, temperature=0.7, use_bucket=False):
     else:
         response_string = ''''''
         for text in input_text:
-            openai.api_key = "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"
+            openai.api_key = ""
             response = openai.Completion.create(
                 engine="text-davinci-001",
                 prompt=text_reformatted(text),
@@ -93,7 +93,7 @@ def gpt_3_summary_regenerate(input_text, temperature=0.7, use_bucket=False):
 
 def gpt_3_summary(input_text, temperature=0.7, use_bin=False):
     if use_bin == False:
-        openai.api_key = "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"
+        openai.api_key = ""
         response = openai.Completion.create(
             engine="text-davinci-001",
             prompt=input_text,
@@ -108,7 +108,7 @@ def gpt_3_summary(input_text, temperature=0.7, use_bin=False):
         response_string = ''''''
 
         for text in input_text:
-            openai.api_key = "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"
+            openai.api_key = ""
             response = openai.Completion.create(
                 engine="text-davinci-001",
                 prompt=text,
