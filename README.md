@@ -11,7 +11,8 @@ The program uses the following library's
 - Beautiful Soup (used for web scraping)
 - Huggingface(sentence-transformers) used for pretrained models
 - Rouge-score used for running rouge score
-
+### Server infrastructure 
+![AWS diagram](aws.png)
 ### Javascript
 - Vue.js (handing front end events)
 - Vue-router (url routing on the front end)
